@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blades AI — Transformers Intelligence</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#070910;color:#f5f7ff}
+header{padding:22px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff12;position:sticky;top:0;background:#070910ee;backdrop-filter:blur(12px);z-index:4}
+.logo{font-size:23px;font-weight:900}.logo b{color:#6f82ff}.nav{color:#aeb7d0;font-size:14px}
+.hero{text-align:center;padding:80px 20px 55px;background:radial-gradient(circle at 50% 0,#4055ff33,transparent 45%)}
+.badge{display:inline-block;padding:8px 13px;border:1px solid #ffffff1a;border-radius:99px;color:#9eabff;background:#ffffff08;font-size:12px}
+h1{font-size:clamp(45px,8vw,90px);letter-spacing:-5px;line-height:.95;margin:22px 0}
+.grad{background:linear-gradient(90deg,#fff,#7184ff,#62ddff);-webkit-background-clip:text;color:transparent}
+.hero p{max-width:720px;margin:auto;color:#9ca6c1;line-height:1.7}
+.wrap{width:min(1120px,90%);margin:auto}.search{margin:28px auto 55px;display:flex;gap:9px;background:#101525;border:1px solid #ffffff16;padding:8px;border-radius:15px;max-width:850px}
+.search input{flex:1;background:none;border:0;outline:0;color:white;padding:13px;font-size:15px}.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer}.blue{background:#edf0ff;color:#090b15}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}.tab{background:#ffffff08;border:1px solid #ffffff12;color:#c8d0e6;padding:9px 13px;border-radius:999px;cursor:pointer}.tab.active{background:#5b6cff;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:#0e1321;border:1px solid #ffffff12;border-radius:18px;padding:20px;overflow:hidden}.botpic{width:calc(100% + 40px);height:190px;margin:-20px -20px 18px;object-fit:cover;background:#090d18;display:block}.picfallback{display:flex;align-items:center;justify-content:center;height:190px;width:calc(100% + 40px);margin:-20px -20px 18px;background:radial-gradient(circle,#29345f,#090d18);color:#7f8baa;font-size:13px}.card h3{margin:0 0 7px}.meta{color:#78839f;font-size:12px}.card p{color:#a3acc4;font-size:13px;line-height:1.55}.pill{display:inline-block;margin-top:9px;padding:5px 8px;border-radius:7px;background:#ffffff09;color:#9eabff;font-size:11px}
+section{padding-bottom:75px}.results{margin-top:25px}.result{padding:17px 0;border-bottom:1px solid #ffffff0e}.result a{color:#90a0ff;text-decoration:none;font-weight:700}.result p{color:#919bb4;font-size:13px}
+.setup{margin:35px 0;padding:22px;border:1px solid #ffffff12;border-radius:18px;background:#ffffff05}.setup input{display:block;width:100%;margin:8px 0 12px;padding:11px;border-radius:9px;border:1px solid #ffffff12;background:#080b13;color:white}.small{color:#747f99;font-size:12px;line-height:1.6}
+footer{text-align:center;border-top:1px solid #ffffff0d;padding:28px;color:#68738d;font-size:12px}
+@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}header .nav{display:none}}@media(max-width:500px){.grid{grid-template-columns:1fr}h1{letter-spacing:-3px}}
+</style></head>
+<body>
+<header><div class="logo">⚔ <b>Blades</b> AI</div><div class="nav">TRANSFORMERS INTELLIGENCE</div></header>
+<section class="hero">
+<div class="badge">CYBERTRON • AUTOBOTS • DECEPTICONS • MORE</div>
+<h1>Every <span class="grad">Transformer.</span><br>One place.</h1>
+<p>Explore characters, factions, eras and facts across the Transformers universe. Search the web for fresh information when you need it.</p>
+</section>
+<div class="wrap">
+<div class="search"><input id="q" placeholder="Search Optimus Prime, Megatron, Beast Wars..." onkeydown="if(event.key==='Enter')searchGoogle()"><button class="btn blue" onclick="searchGoogle()">Search Google</button></div>
+<div class="tabs"><button class="tab active" onclick="filter('all',this)">All</button><button class="tab" onclick="filter('Autobot',this)">Autobots</button><button class="tab" onclick="filter('Decepticon',this)">Decepticons</button><button class="tab" onclick="filter('Maximal',this)">Maximals</button><button class="tab" onclick="filter('Predacon',this)">Predacons</button></div>
+<section><div class="grid" id="grid"></div></section>
+
+<section id="youtube">
+<h2>▶ Transformers Episode Finder</h2>
+<p class="small">Search YouTube for episodes from any Transformers series. Results open on YouTube so you can choose the video or playlist you want.</p>
+<div class="search">
+  <input id="ytq" placeholder="e.g. Transformers Prime season 1 episode 1">
+  <button class="btn blue" onclick="searchYouTube()">Search YouTube</button>
+</div>
+<div class="tabs" id="seriesTabs"></div>
+<div id="ytResults" class="results"></div>
+</section>
+<section>
+<h2>Google Web Intelligence</h2>
+<div id="results" class="results"><p class="small">Enter a query above to search Google through your configured backend. If no API is configured, the site can still open the query directly on Google.</p></div>
+<div class="setup">
+<strong>Google API setup</strong>
+<p class="small">Google Custom Search requires an API key and a Programmable Search Engine ID (cx). The official API returns web results as JSON. cite references are not shown inside this local file.</p>
+<input id="apiKey" placeholder="Google API key (optional)">
+<input id="cx" placeholder="Programmable Search Engine ID / cx (optional)">
+<button class="btn blue" onclick="saveConfig()">Save locally</button>
+</div>
+</section>
+</div>
+<footer>Blades AI • Transformers knowledge explorer • Fan-made interface</footer>
+<script>
+const bots=[
+["Optimus Prime","Autobot","Leader of the Autobots; transforms into a truck in many continuities.","G1 / Movies / Prime / many"],
+["Bumblebee","Autobot","Scout and trusted Autobot ally with many vehicle forms across continuities.","G1 / Movies / Animated"],
+["Megatron","Decepticon","Leader of the Decepticons in many Transformers continuities.","G1 / Movies / Prime"],
+["Starscream","Decepticon","Seeker and ambitious Decepticon frequently associated with Megatron.","G1 / Movies / Prime"],
+["Rhinox","Maximal","Maximal scientist and warrior associated with the Beast Wars era.","Beast Wars"],
+["Dinobot","Maximal","Former Predacon who becomes a Maximal in Beast Wars.","Beast Wars"],
+["Blackarachnia","Predacon","Predacon spider who later changes allegiance in Beast Wars.","Beast Wars"],
+["Soundwave","Decepticon","Communications specialist commonly depicted with cassette or data companions.","G1 / Movies / Prime"],
+["Arcee","Autobot","Autobot warrior appearing across multiple Transformers continuities.","G1 / Movies / Prime"],
+["Shockwave","Decepticon","Cold, logic-driven Decepticon scientist and strategist.","G1 / Movies / Prime"],
+["Grimlock","Autobot","Dinobot leader, usually depicted as a powerful T. rex.","G1 / Movies / Animated"],
+["Ultra Magnus","Autobot","High-ranking Autobot officer and frequent Optimus ally.","G1 / Animated / IDW"]
+];
+let current='all';
+async function render(){
+ grid.innerHTML='';
+ const list=bots.filter(x=>current==='all'||x[1]===current);
+ list.forEach((x,i)=>{
+  const id='pic'+i+Date.now();
+  grid.innerHTML+=`<article class="card"><div id="${id}" class="picfallback">Loading picture…</div><h3>${x[0]}</h3><div class="meta">${x[1]} • ${x[3]}</div><p>${x[2]}</p><button class="tab" style="margin-top:8px" onclick="openPics('${encodeURIComponent(x[0])}')">More pictures →</button></article>`;
+  loadPic(x[0],id);
+ });
+}
+async function loadPic(name,id){
+ try{
+  const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(name));
+  const d=await r.json();
+  const box=document.getElementById(id);
+  if(d.thumbnail&&d.thumbnail.source){
+   box.outerHTML=`<img id="${id}" class="botpic" src="${d.thumbnail.source}" alt="${name}" loading="lazy">`;
+  } else {
+   box.innerHTML='No preview image found';
+  }
+ }catch(e){
+  const box=document.getElementById(id); if(box) box.innerHTML='Image unavailable';
+ }
+}
+function openPics(name){
+ window.open('https://www.google.com/search?tbm=isch&q='+name+'+Transformers','_blank','noopener');
+}
+function filter(x,b){current=x;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');render()}
+function saveConfig(){localStorage.setItem('bladesKey',apiKey.value.trim());localStorage.setItem('bladesCx',cx.value.trim());alert('Saved in this browser.')}
+async function searchGoogle(){
+ const query=q.value.trim();if(!query)return;
+ const key=localStorage.getItem('bladesKey'), engine=localStorage.getItem('bladesCx');
+ if(!key||!engine){results.innerHTML=`<p>Google API is not configured.</p><p><a class="result" target="_blank" href="https://www.google.com/search?q=${encodeURIComponent(query+' Transformers')}">Open this search directly on Google →</a></p>`;return}
+ results.innerHTML='<p>Searching Google…</p>';
+ try{
+  const url=`https://www.googleapis.com/customsearch/v1?key=${encodeURIComponent(key)}&cx=${encodeURIComponent(engine)}&q=${encodeURIComponent(query)}`;
+  const r=await fetch(url);const data=await r.json();
+  if(!data.items){results.innerHTML='<p>No results found.</p>';return}
+  results.innerHTML=data.items.map(i=>`<div class="result"><a target="_blank" rel="noopener" href="${i.link}">${i.title}</a><p>${i.snippet||''}</p><span class="small">${i.displayLink||''}</span></div>`).join('');
+ }catch(e){results.innerHTML='<p>Google search failed. Check your API key, cx, quota, or browser CORS settings.</p>'}
+}
+
+const series=[
+"The Transformers (G1)","The Transformers: The Movie","Beast Wars: Transformers",
+"Beast Machines","Robots in Disguise (2001)","Transformers Armada","Transformers Energon",
+"Transformers Cybertron","Transformers Animated","Transformers Prime","Transformers Rescue Bots",
+"Transformers: Robots in Disguise (2015)","Transformers Cyberverse","War for Cybertron: Siege",
+"War for Cybertron: Earthrise","War for Cybertron: Kingdom","Transformers: EarthSpark",
+"Transformers One: New Adventures","Transformers: Cyber Missions","Beast Wars II","Beast Wars Neo",
+"Transformers Victory","Transformers Headmasters","Super-God Masterforce","Transformers Zone"
+];
+const seriesTabs=document.getElementById('seriesTabs');
+series.forEach(name=>{
+ const b=document.createElement('button'); b.className='tab'; b.textContent=name;
+ b.onclick=()=>{document.getElementById('ytq').value=name+' full episodes';searchYouTube()};
+ seriesTabs.appendChild(b);
+});
+function searchYouTube(){
+ const qv=document.getElementById('ytq').value.trim();
+ if(!qv)return;
+ const query=qv+' Transformers episode';
+ const url='https://www.youtube.com/results?search_query='+encodeURIComponent(query);
+ document.getElementById('ytResults').innerHTML=
+ `<div class="result"><a target="_blank" rel="noopener" href="${url}">Open YouTube results for “${qv}” →</a><p>YouTube will show matching episodes, playlists, clips, and official uploads available in your region.</p></div>`;
+}
+render();
+
+</script></body></html>
